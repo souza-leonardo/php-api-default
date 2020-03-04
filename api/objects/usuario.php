@@ -53,4 +53,11 @@ class Usuario
         
         return false;
     }
+
+    public function readOne()
+    {
+        $query = "SELECT * FROM $this->tableName WHERE id = ? LIMIT 0,1";
+
+        $stmt = $this->conn->prepare($query);
+    }
 }
