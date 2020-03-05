@@ -125,4 +125,29 @@ class Usuario
 
         return $stmt;
     }
+
+    public function readPaging($fromRecordNum, $recordsPerPage)
+    {
+        $query = "SELECT * FROM $this->tableName ORDER BY created_at DESC LIMIT ?, ?";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(1, $fromRecordNum, PDO::PARAM_INT);
+        $stmt->bindParam(2, $recordsPerPage, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt;
+    }
+
+    public function count()
+    {
+        $query = "SELECT COUNT(*) AS total_rows FROM $this->tableName";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row['total_rows'];
+    }
 }
