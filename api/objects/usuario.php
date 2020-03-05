@@ -59,5 +59,36 @@ class Usuario
         $query = "SELECT * FROM $this->tableName WHERE id = ? LIMIT 0,1";
 
         $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->id);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        $this->nome = $row['nome'];
+        $this->cpf = $row['cpf'];
+        $this->username = $row['username'];
+        $this->created_at = $row['created_at'];
+    }
+
+    public function update()
+    {
+        $query = "UPDATE $this->tableName SET nome = :nome, cpf = :cpf, username = :username, password = :password WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+        $this->nome = htmlspecialchars(strip_tags($this->nome));
+        $this->cpf = htmlspecialchars(strip_tags($this->cpf));
+        $this->username = htmlspecialchars(strip_tags($this->username));
+        $this->password = htmlspecialchars(strip_tags($this->password));
+
+        $stmt->bindParam(':nome', $this->nome);
+        $stmt->bindParam(':cpf', $this->cpf);
+        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':password', $this->password);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        return false;
     }
 }
