@@ -106,4 +106,23 @@ class Usuario
 
         return false;
     }
+
+    public function search($keywords)
+    {
+        $query = "SELECT * FROM $this->tableName WHERE nome LIKE ? OR cpf LIKE ? OR username LIKE ? ORDER BY created_at DESC";
+
+        $stmt = $this->conn->prepare($query);
+
+        //sanitize
+        $keywords = htmlspecialchars(strip_tags($keywords));
+        $keywords = "%{$keywords}%";
+
+        $stmt->bindParam(1, $keywords);
+        $stmt->bindParam(2, $keywords);
+        $stmt->bindParam(3, $keywords);
+
+        $stmt->execute();
+
+        return $stmt;
+    }
 }
