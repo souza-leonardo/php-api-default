@@ -7,8 +7,8 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include_once '../config/database.php';
-include_once '../objects/usuario.php';
+require_once '../config/database.php';
+require_once '../objects/usuario.php';
 
 // get database connection
 $database = new Database();
@@ -23,7 +23,7 @@ $usuario->id = $data->id;
 $usuario->nome = $data->nome;
 $usuario->cpf = $data->cpf;
 $usuario->username = $data->username;
-$usuario->password = md5($data->password);
+$usuario->password = password_hash($data->password, PASSWORD_BCRYPT, ['cost' => 12]);
 
 if ($usuario->update()) {
     http_response_code(200);
