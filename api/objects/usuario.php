@@ -150,4 +150,31 @@ class Usuario
 
         return $row['total_rows'];
     }
+
+    public function cpfExists()
+    {
+        $query = "SELECT * FROM $this->tableName WHERE cpf = ? LIMIT 0, 1";
+
+        $stmt = $this->conn->prepare($query);
+
+        //sanitize
+        $this->cpf = htmlspecialchars(strip_tags($this->cpf));
+
+        $stmt->bindParam(1, $this->cpf);
+        $stmt->execute();
+
+        $num = $stmt->rowCount();
+        if ($num > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->id = $row['id'];
+            $this->nome = $row['nome'];
+            $this->cpf = $row['cpf'];
+            $this->username = $row['username'];
+            $this->password = $row['password'];
+
+            return true;
+        }
+
+        return false;
+    }
 }

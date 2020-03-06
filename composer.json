@@ -1,0 +1,18 @@
+{
+    "name": "souzaleo97/php-scaffolding",
+    "type": "project",
+    "description": "Scaffolding para desenvolvimento em PHP",
+    "license": "MIT",
+    "require": {
+        "php": "^7.2",
+        "firebase/php-jwt": "^5.1.0"
+    },
+    "authors": [
+        {
+            "name": "Leonardo de Oliveira Souza",
+            "email": "souzaleo97@hotmail.com",
+            "homepage": "https://www.linkedin.com/in/leonardosouza97/",
+            "role": "Developer"
+        }
+    ]
+}
